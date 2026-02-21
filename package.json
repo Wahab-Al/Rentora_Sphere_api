@@ -1,5 +1,5 @@
 {
-  "name": "rentorasphere",
+  "name": "rentora_sphere_api",
   "version": "1.0.0",
   "description": "Rest Api for a real estate platform supporting house rentals, purchases, listings, and property management",
   "keywords": [
@@ -15,13 +15,13 @@
     "property",
     "marketplace"
   ],
-  "homepage": "https://github.com/Wahab-Al/RentoraSphereTS#readme",
+  "homepage": "https://github.com/Wahab-Al/Rentora_Sphere_api#readme",
   "bugs": {
-    "url": "https://github.com/Wahab-Al/RentoraSphereTS/issues"
+    "url": "https://github.com/Wahab-Al/Rentora_Sphere_api/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Wahab-Al/RentoraSphereTS.git"
+    "url": "git+https://github.com/Wahab-Al/Rentora_Sphere_api.git"
   },
   "license": "MIT",
   "author": "Wahab-al",
