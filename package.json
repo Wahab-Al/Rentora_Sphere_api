@@ -1,0 +1,46 @@
+{
+  "name": "rentorasphere",
+  "version": "1.0.0",
+  "description": "Rest Api for a real estate platform supporting house rentals, purchases, listings, and property management",
+  "keywords": [
+    "node.js",
+    "express",
+    "backend",
+    "api",
+    "rest",
+    "clean-architecture",
+    "housing",
+    "rentals",
+    "real-estate",
+    "property",
+    "marketplace"
+  ],
+  "homepage": "https://github.com/Wahab-Al/RentoraSphereTS#readme",
+  "bugs": {
+    "url": "https://github.com/Wahab-Al/RentoraSphereTS/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wahab-Al/RentoraSphereTS.git"
+  },
+  "license": "MIT",
+  "author": "Wahab-al",
+  "type": "module",
+  "main": "src/server.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev --respawn src/server.ts",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.3.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
+}
