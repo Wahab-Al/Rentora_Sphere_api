@@ -11,12 +11,12 @@ export const checkConnection = async ()=>{
     console.log('Connected to MySQL Database: rentora_sphere_v1');
     connection.release();
   } catch (error: unknown) { 
-      console.error('Database connection failed:');
-      if (error instanceof Error) {
-        console.error(`Error Message: ${error.message}`); 
-      } else {
-        console.error('An unexpected error occurred', error);
-      }
-      process.exit(1);
+    console.error('Database connection failed:');
+    if (error instanceof Error) {
+      console.error(`Error Message: ${error.message}`); 
+    } else {
+      console.error('An unexpected error occurred', error);
     }
+    process.exit(1);
+  }
 }
