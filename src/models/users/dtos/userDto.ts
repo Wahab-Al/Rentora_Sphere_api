@@ -10,7 +10,7 @@ export class CreateUserDTO {
   email!: string; phone!: string; 
   role!: RoleValues;
   password!: string;
-  ownerData?: OwnerData 
+  ownerData?: OwnerData | null
 }
 
 

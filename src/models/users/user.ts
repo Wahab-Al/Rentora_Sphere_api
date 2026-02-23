@@ -1,10 +1,10 @@
 import type { CreateUserDTO, OwnerData, RoleValues } from "./dtos/userDto.js";
 import { v7 as uuidv7 } from 'uuid';
-import type { IUserInterface } from "./user_interface.js";
+import type { IUser } from "./user_interface.js";
 
 
 export class User {
-  readonly #id?: number;
+  readonly #id!: number;
 
   #user_id: string;
   #name: string;
@@ -14,7 +14,7 @@ export class User {
   #password: string;
   #phone: string;
   #role: RoleValues;
-  #ownerData?: OwnerData | undefined;
+  #ownerData?: OwnerData | null;
   #lastLogin: Date;
   #refreshToken?: string;
   #isActiveAcc: boolean;
@@ -25,7 +25,7 @@ export class User {
    * Private constructor
    * @param data user data from CreateUserDTO.
    */
-  private constructor(data: IUserInterface) {
+  private constructor(data: IUser) {
     this.#user_id = data.user_id;
     this.#username = data.username;
     this.#name = data.name;
@@ -53,7 +53,7 @@ export class User {
     if (data.ownerData?.shipType === 'company' && !data.ownerData.companyName) {
       throw new Error('Company owner must provide companyName');
     }
-    const iUser : IUserInterface = {
+    const iUser : IUser = {
       user_id: uuidv7(),
       username: data.username,
       name: data.name,
@@ -62,7 +62,7 @@ export class User {
       password: data.password,
       phone: data.phone,
       role: data.role,
-      ownerData: data.ownerData,
+      ownerData: data.ownerData ?? null,
       isActiveAcc: true,
       createdAt: new Date(),
       updatedAt: new Date(),  
@@ -80,7 +80,7 @@ export class User {
   get role() { return this.#role; }
   get lastLogin() { return this.#lastLogin; }
   get isActiveAcc() { return this.#isActiveAcc; }
-  get ownerData() {return this.#ownerData}
+  get ownerData(): OwnerData | null {return this.#ownerData ?? null}
   get createdAt() { return this.#createdAt; }
   get updatedAt() { return this.#updatedAt; }
 
@@ -91,6 +91,6 @@ export class User {
   set email(value: string) { this.#email = value}
   set phone(value: string) { this.#phone = value}
   set role(value: RoleValues) {  this.#role = value }
-  set ownerData(value: OwnerData | undefined) { this.#ownerData = value}
+  set ownerData(value: OwnerData | null) { this.#ownerData = value}
   set isActiveAcc(value: boolean) { this.#isActiveAcc = value}
 }
