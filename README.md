@@ -1,9 +1,13 @@
-# 🚧 Project Status: Work in Progress (WIP)
+# 🚧 Work In Progress (WIP)
 
-**Note:** This repository is currently undergoing a major architectural overhaul. I am actively working on the following:
+> [!IMPORTANT]
+> **This project is currently under active development.** ⚠️
 
-* **Database Migration:** Moving from a NoSQL (MongoDB) to a Relational (MySQL) structure for better data integrity.
-* **Modern Standards:** Integrating **UUIDv7** for time-sorted database indexing and enhanced performance.
-* **Data Validation:** Implementing **DTOs** (Data Transfer Objects) to secure and sanitize all incoming request data.
+## 🛠️ Current Focus
+I am performing a core architectural migration and refactoring:
+* **Database Shift:** Migrating logic and data from **MongoDB** to **MySQL** to support relational data integrity.
+* **Strict Typing:** Implementing `IUserInterface` and `CreateUserDTO` for end-to-end type safety.
+* * **Modern Standards:** Integrating `UUIDv7` for time-sorted database indexing and enhanced performance.
+* **Entity Logic:** Centralizing user creation and validation within the `User` Domain Model.
 
-Feel free to explore the code, but please keep in mind that breaking changes may occur as I continue to push updates. Stay tuned for the stable release!
+🚨 **Note:** Expect frequent breaking changes in the `master` branch until this migration is finalized.
