@@ -1,8 +1,13 @@
 import type { CreateUserDTO, OwnerData, RoleValues } from "./dtos/userDto.js";
 import { v7 as uuidv7 } from 'uuid';
 import type { IUser } from "./user_interface.js";
+import { create } from "node:domain";
 
-
+/**
+ * Domain Model representing a User within the RentoraSphere system.
+ * @example
+ * const user = User.create(dto);
+ */
 export class User {
   readonly #id!: number;
 
@@ -22,8 +27,8 @@ export class User {
   #updatedAt: Date;
   
   /**
-   * Private constructor
-   * @param data user data from CreateUserDTO.
+   * Private constructor accept data from CreateUserDTO.
+   * @param {IUser}data
    */
   private constructor(data: IUser) {
     this.#user_id = data.user_id;
@@ -71,26 +76,20 @@ export class User {
   }
 
   // Getters:
-  get userId() { return this.#user_id}
-  get username() { return this.#username}
-  get name() { return this.#name}
-  get surname() { return this.#surname}
-  get email() {return this.#email}
-  get phone() {return this.#phone}
-  get role() { return this.#role; }
-  get lastLogin() { return this.#lastLogin; }
-  get isActiveAcc() { return this.#isActiveAcc; }
+  get userId(): string { return this.#user_id}
+  get username(): string { return this.#username}
+  get name(): string { return this.#name}
+  get surname(): string { return this.#surname}
+  get email(): string {return this.#email}
+  get phone(): string {return this.#phone}
+  get role(): RoleValues { return this.#role; }
+  get lastLogin(): Date { return this.#lastLogin; }
+  get isActiveAcc(): Boolean { return this.#isActiveAcc; }
   get ownerData(): OwnerData | null {return this.#ownerData ?? null}
-  get createdAt() { return this.#createdAt; }
-  get updatedAt() { return this.#updatedAt; }
+  get createdAt(): Date { return this.#createdAt; }
+  get updatedAt(): Date { return this.#updatedAt; }
 
   // Setters:
-  set username(value: string) { this.#username = value}
-  set name(value: string) { this.#name = value}
-  set surname(value: string) { this.#surname = value}
-  set email(value: string) { this.#email = value}
-  set phone(value: string) { this.#phone = value}
-  set role(value: RoleValues) {  this.#role = value }
-  set ownerData(value: OwnerData | null) { this.#ownerData = value}
-  set isActiveAcc(value: boolean) { this.#isActiveAcc = value}
+  private set role(value: RoleValues) {  this.#role = value }
+  private set isActiveAcc(value: boolean) { this.#isActiveAcc = value}
 }

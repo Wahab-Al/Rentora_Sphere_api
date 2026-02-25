@@ -11,7 +11,7 @@ export interface IUnit {
   bedrooms: number;
   bathrooms: number;
   unitStatus: UnitStatus;
-  owner?: string;
+  owner: string;
   createdAt: Date;      
   updatedAt: Date;   
 }
