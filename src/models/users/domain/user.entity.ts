@@ -1,12 +1,10 @@
-import type { CreateUserDTO, OwnerData, RoleValues } from "./dtos/userDto.js";
 import { v7 as uuidv7 } from 'uuid';
-import type { IUser } from "./user_interface.js";
-import { create } from "node:domain";
+import type { CreateUserProps, IUser, OwnerData, accountTypeValues } from "./user_interface.js";
 
 /**
  * Domain Model representing a User within the RentoraSphere system.
  * @example
- * const user = User.create(dto);
+ * const user = User.create(userProps);
  */
 export class User {
   readonly #id!: number;
@@ -18,7 +16,7 @@ export class User {
   #email: string;
   #password: string;
   #phone: string;
-  #role: RoleValues;
+  #accountType: accountTypeValues;
   #ownerData?: OwnerData | null;
   #lastLogin: Date;
   #refreshToken?: string;
@@ -38,10 +36,10 @@ export class User {
     this.#email = data.email;
     this.#password = data.password;
     this.#phone = data.phone;
-    this.#role = data.role;
+    this.#accountType = data.accountType;
     this.#ownerData = data.ownerData;
     this.#lastLogin = new Date();
-    this.#isActiveAcc = Boolean(data.isActiveAcc);
+    this.#isActiveAcc = data.isActiveAcc ;
     this.#createdAt = data.createdAt;
     this.#updatedAt = data.updatedAt;
   }
@@ -49,10 +47,10 @@ export class User {
    * Initializes a new User
    * @param data object containing signup request details.
    * @returns new User instance with a generated UUIDv7.
-   * @throws Error if role is 'owner' but ownerData is missing or if shipType is 'company' but companyName is missing.
+   * @throws Error if accountType is 'owner' but ownerData is missing or if shipType is 'company' but companyName is missing.
    */
-  static create(data: CreateUserDTO): User{
-    if (data.role === 'owner' && !data.ownerData) {
+  static create(data: CreateUserProps): User{
+    if (data.accountType === 'owner' && !data.ownerData) {
       throw new Error('Owner must have shipType & companyName') 
     }
     if (data.ownerData?.shipType === 'company' && !data.ownerData.companyName) {
@@ -66,12 +64,13 @@ export class User {
       email: data.email,
       password: data.password,
       phone: data.phone,
-      role: data.role,
+      accountType: data.accountType,
       ownerData: data.ownerData ?? null,
       isActiveAcc: true,
       createdAt: new Date(),
       updatedAt: new Date(),  
     }
+
     return new User(iUser)
   }
 
@@ -82,14 +81,14 @@ export class User {
   get surname(): string { return this.#surname}
   get email(): string {return this.#email}
   get phone(): string {return this.#phone}
-  get role(): RoleValues { return this.#role; }
+  get accountType(): accountTypeValues { return this.#accountType; }
   get lastLogin(): Date { return this.#lastLogin; }
-  get isActiveAcc(): Boolean { return this.#isActiveAcc; }
+  get isActiveAcc(): boolean { return this.#isActiveAcc; }
   get ownerData(): OwnerData | null {return this.#ownerData ?? null}
   get createdAt(): Date { return this.#createdAt; }
   get updatedAt(): Date { return this.#updatedAt; }
 
   // Setters:
-  private set role(value: RoleValues) {  this.#role = value }
+  private set accountType(value: accountTypeValues) {  this.#accountType = value }
   private set isActiveAcc(value: boolean) { this.#isActiveAcc = value}
 }

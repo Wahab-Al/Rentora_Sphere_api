@@ -1,4 +1,4 @@
-import type { CreateContractDTO } from "./dtos/CreateRentDTO.js";
+import type { CreateContractDTO } from "../presentation/CreateRentDTO.js";
 import type { IContract, OrderStatus, ContractState } from "./rent_Interface.js";
 import { v7 as uuidv7 } from 'uuid';
 

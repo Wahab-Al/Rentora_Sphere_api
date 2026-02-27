@@ -1,4 +1,4 @@
-import type { UnitStatus, UnitType } from "../unit_interface.js";
+import type { UnitStatus, UnitType } from "../domain/unit_interface.js";
 
 export class CreateUnitDTO {
   title!: string;

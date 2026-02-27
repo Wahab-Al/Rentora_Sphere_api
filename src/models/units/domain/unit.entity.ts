@@ -1,4 +1,4 @@
-import type { CreateUnitDTO } from "./dtos/unitDto.js";
+import type { CreateUnitDTO } from "../presentation/unitDto.js";
 import type { IUnit, UnitStatus, UnitType } from "./unit_interface.js";
 import { v7 as uuidv7 } from 'uuid';
 
