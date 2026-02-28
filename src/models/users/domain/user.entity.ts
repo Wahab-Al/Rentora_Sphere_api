@@ -1,5 +1,6 @@
 import { v7 as uuidv7 } from 'uuid';
 import type { CreateUserProps, IUser, OwnerData, accountTypeValues } from "./user_interface.js";
+import { argon2 } from 'node:crypto';
 
 /**
  * Domain Model representing a User within the RentoraSphere system.
@@ -14,15 +15,15 @@ export class User {
   #surname: string;
   #username: string;
   #email: string;
-  #password: string;
+  readonly #password: string;
   #phone: string;
   #accountType: accountTypeValues;
-  #ownerData?: OwnerData | null;
-  #lastLogin: Date;
-  #refreshToken?: string;
+  readonly #ownerData?: OwnerData | null;
+  readonly #lastLogin: Date;
+  readonly #refreshToken?: string;
   #isActiveAcc: boolean;
-  #createdAt: Date;
-  #updatedAt: Date;
+  readonly #createdAt: Date;
+  readonly #updatedAt: Date;
   
   /**
    * Private constructor accept data from CreateUserDTO.
@@ -56,7 +57,7 @@ export class User {
     if (data.ownerData?.shipType === 'company' && !data.ownerData.companyName) {
       throw new Error('Company owner must provide companyName');
     }
-    const iUser : IUser = {
+    const iUser: IUser = {
       user_id: uuidv7(),
       username: data.username,
       name: data.name,
@@ -68,11 +69,34 @@ export class User {
       ownerData: data.ownerData ?? null,
       isActiveAcc: true,
       createdAt: new Date(),
-      updatedAt: new Date(),  
+      updatedAt: new Date(),
     }
 
     return new User(iUser)
   }
+
+  /**
+   * Converts the domain User entity into a plain object without breaking encapsulation of private fields.
+   * @returns Plain object representing the user in a persistence-ready format.
+   */
+  toPersistence() {
+    return {
+      user_id: this.#user_id,
+      email: this.#email,
+      password: this.#password,
+      username: this.#username,
+      name: this.#name,
+      surname: this.#surname,
+      phone: this.#phone,
+      accountType: this.#accountType,
+      ownerData: this.#ownerData,
+      isActiveAcc: this.#isActiveAcc,
+      createdAt: this.#createdAt,
+      updatedAt: this.#updatedAt,
+      refreshToken: this.#refreshToken ?? null
+    }
+  }
+
 
   // Getters:
   get userId(): string { return this.#user_id}
