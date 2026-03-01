@@ -9,7 +9,7 @@ export interface IUserRepository {
  * @param email Unique email identifier
  * @returns {IUser} | null
  */
-  findByEmail(email: string) : Promise<User | null | undefined> 
+  findByEmail(email: string) : Promise<User | null> 
 
   /**
    * Retrieves a user by their unique identifier.

@@ -25,7 +25,7 @@ export class UserRepository implements IUserRepository {
 
   async save(user: User): Promise<void> {
     // use the object returned by toPersistence() instead of trying to access private fields
-    const userRecord  = user.toPersistence();
+    const userRecord  =  user.toPersistence();
 
     // store ownerData as JSON in the DB
     const ownerDataSerialized = userRecord .ownerData ? JSON.stringify(userRecord .ownerData) : null;

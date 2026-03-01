@@ -1,6 +1,7 @@
 import { v7 as uuidv7 } from 'uuid';
 import type { CreateUserProps, IUser, OwnerData, accountTypeValues } from "./user_interface.js";
-import { argon2 } from 'node:crypto';
+import argon2 from 'argon2';
+
 
 /**
  * Domain Model representing a User within the RentoraSphere system.
@@ -18,7 +19,7 @@ export class User {
   readonly #password: string;
   #phone: string;
   #accountType: accountTypeValues;
-  readonly #ownerData?: OwnerData | null;
+  readonly #ownerData: OwnerData | null;
   readonly #lastLogin: Date;
   readonly #refreshToken?: string;
   #isActiveAcc: boolean;
@@ -50,20 +51,23 @@ export class User {
    * @returns new User instance with a generated UUIDv7.
    * @throws Error if accountType is 'owner' but ownerData is missing or if shipType is 'company' but companyName is missing.
    */
-  static create(data: CreateUserProps): User{
+  static async create(data: CreateUserProps): Promise<User>{
     if (data.accountType === 'owner' && !data.ownerData) {
       throw new Error('Owner must have shipType & companyName') 
     }
     if (data.ownerData?.shipType === 'company' && !data.ownerData.companyName) {
       throw new Error('Company owner must provide companyName');
     }
+
+    const hashedPassword = await argon2.hash(data.password);
+
     const iUser: IUser = {
       user_id: uuidv7(),
       username: data.username,
       name: data.name,
       surname: data.surname,
       email: data.email,
-      password: data.password,
+      password: String(hashedPassword),
       phone: data.phone,
       accountType: data.accountType,
       ownerData: data.ownerData ?? null,
@@ -79,7 +83,7 @@ export class User {
    * Converts the domain User entity into a plain object without breaking encapsulation of private fields.
    * @returns Plain object representing the user in a persistence-ready format.
    */
-  toPersistence() {
+  toPersistence(){
     return {
       user_id: this.#user_id,
       email: this.#email,
@@ -97,6 +101,32 @@ export class User {
     }
   }
 
+  /**
+   * Converts the User instance to a plain object suitable for API responses
+   * @returns {Object} Plain user object without password or sensitive data.
+   */
+  toResponseObject() {
+  return {
+    userId: this.userId,
+    username: this.username,
+    name: this.name,
+    surname: this.surname,
+    email: this.email,
+    phone: this.phone,
+    accountType: this.accountType,
+    createdAt: this.createdAt,
+    updatedAt: this.updatedAt,
+  };
+}
+
+  /**
+   * Compares a plaintext password with the user's hashed password.
+   * @param plainPassword The plaintext password to check
+   * @returns {Promise<boolean>} True if the password matches, false otherwise
+   */
+  async verifyPassword(plainPassword: string): Promise<boolean> {
+    return argon2.verify(this.#password, plainPassword);
+  }
 
   // Getters:
   get userId(): string { return this.#user_id}
